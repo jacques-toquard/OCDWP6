@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { Book, User } from './models/index.js';
+import apiRouter from './api/index.js';
 
 const app = express();
 
@@ -24,8 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Test endpoint working!' });
-});
+app.use('/api', apiRouter);
 
 export default app;
