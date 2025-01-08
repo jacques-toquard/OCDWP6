@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import { Book, User } from './models/index.js';
 
 const app = express();
 
