@@ -23,9 +23,14 @@ export const getBookById = async (req, res, next) => {
   }
 };
 
-export const getBestRatedBooks = (req, res, next) => {
-  res.status(202).json({ message: 'Not implemented' });
-  // todo
+export const getBestRatedBooks = async (req, res, next) => {
+  try {
+    const books = await Book.find().sort({ averageRating: -1 }).limit(3);
+    res.status(200).json(books);
+  } catch (error) {
+    console.log('ERROR at `GET /api/books/bestrating`:\n', error);
+    res.status(500).json({ error });
+  }
 };
 
 export const createBook = (req, res, next) => {
