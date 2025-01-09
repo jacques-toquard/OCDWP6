@@ -33,16 +33,18 @@ const bookSchema = new mongoose.Schema({
     description: 'genre du livre',
   },
   ratings: {
-    type: [{
-      userId: {
-        type: String,
-        required: true
+    type: [
+      {
+        userId: {
+          type: String,
+          required: true,
+        },
+        grade: {
+          type: Number,
+          required: true,
+        },
       },
-      grade: {
-        type: Number,
-        required: true
-      }
-    }],
+    ],
     required: true,
     description: 'notes données à un livre',
   },
@@ -50,7 +52,7 @@ const bookSchema = new mongoose.Schema({
     type: Number,
     required: true,
     description: 'note moyenne du livre',
-  }
+  },
 });
 
 export default mongoose.model('Book', bookSchema);
