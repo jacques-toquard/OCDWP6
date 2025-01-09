@@ -66,6 +66,7 @@ export const createBook = async (req, res, next) => {
 
 export const rateBook = async (req, res, next) => {
   const { userId, rating } = req.body;
+  const ratingInt = parseInt(rating, 10);
   if (userId !== req.auth.userId) {
     // le document explicite que le body contient un champ userId
     return res.status(403).json({ message: 'Non autorisé' });
@@ -79,15 +80,18 @@ export const rateBook = async (req, res, next) => {
       rating => rating.userId === userId
     );
     if (ratingIndex === -1) {
-      book.ratings.push({ userId, rating });
+      book.ratings.push({ userId, grade: ratingInt });
     } else {
-      book.ratings[ratingIndex].rating = rating;
+      return res
+        .status(400)
+        .json({ message: 'Vous avez déjà noté ce livre' });
     }
-    book.averageRating =
+    const averageRating =
       book.ratings.reduce(
-        (runningTotal, rating) => runningTotal + rating.rating,
+        (runningTotal, rating) => runningTotal + rating.grade,
         0
       ) / book.ratings.length;
+    book.averageRating = averageRating;
     await book.save();
     res.status(200).json({ book: book });
   } catch (error) {
@@ -110,7 +114,7 @@ export const updateBook = async (req, res, next) => {
       modifiedBook = req.file ? JSON.parse(req.body.book) : { ...req.body };
     } catch (error) {
       if (req.file) {
-        await fs.promises.unlink(req.file.path);
+        await fs.unlink(req.file.path);
       }
       return res.status(400).json({ error: 'Invalid book data format' });
     }
@@ -122,9 +126,7 @@ export const updateBook = async (req, res, next) => {
       if (book.imageUrl) {
         const oldFilename = book.imageUrl.split('/images/')[1];
         try {
-          await fs.promises.unlink(
-            path.join(__dirname, '../../images', oldFilename)
-          );
+          await fs.unlink(path.join(__dirname, '../../images', oldFilename));
         } catch (error) {
           console.log(
             'Warning: Could not delete old image:',
@@ -140,7 +142,7 @@ export const updateBook = async (req, res, next) => {
     console.log('ERROR at `PUT/api/books/:id`:\n', error);
     if (req.file) {
       try {
-        await fs.promises.unlink(req.file.path);
+        await fs.unlink(req.file.path);
       } catch (unlinkError) {
         console.log(
           'Warning: Could not delete uploaded file:',
@@ -154,6 +156,7 @@ export const updateBook = async (req, res, next) => {
 };
 
 export const deleteBook = async (req, res, next) => {
+  // todo: error: path is not defined
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
@@ -166,9 +169,7 @@ export const deleteBook = async (req, res, next) => {
     if (book.imageUrl) {
       const oldFilename = book.imageUrl.split('/images/')[1];
       try {
-        await fs.promises.unlink(
-          path.join(__dirname, '../../images', oldFilename)
-        );
+        await fs.unlink(path.join(__dirname, '../../images', oldFilename));
       } catch (error) {
         console.log(
           'Warning: Could not delete old image:',
