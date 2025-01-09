@@ -61,9 +61,35 @@ export const createBook = async (req, res, next) => {
   }
 };
 
-export const rateBook = (req, res, next) => {
-  res.status(202).json({ message: 'Not implemented' });
-  // todo
+export const rateBook = async (req, res, next) => {
+  const { userId, rating } = req.body;
+  if (userId !== req.auth.userId) {
+    // le document explicite que le body contient un champ userId
+    return res.status(403).json({ message: 'Non autorisé' });
+  }
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ message: 'Livre non rencontré' });
+    }
+    const ratingIndex = book.ratings.findIndex(
+      rating => rating.userId === userId
+    );
+    if (ratingIndex === -1) {
+      book.ratings.push({ userId, rating });
+    } else {
+      book.ratings[ratingIndex].rating = rating;
+    }
+    const averageRating =
+      book.ratings.reduce((runningTotal, rating) => runningTotal + rating.rating, 0) /
+      book.ratings.length;
+    book.averageRating = averageRating;
+    await book.save();
+    res.status(200).json({ book: book });
+  } catch (error) {
+    console.log('ERROR at `POST/api/books/:id/rating`:\n', error);
+    res.status(500).json({ error });
+  }
 };
 
 export const updateBook = async (req, res, next) => {

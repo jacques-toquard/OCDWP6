@@ -19,7 +19,7 @@ booksRouter.get('/bestrating', getBestRatedBooks);
 booksRouter.get('/:id', getBookById);
 
 booksRouter.post('/', auth, multer, createBook);
-booksRouter.post('/:id/rating', auth, validateRating, rateBook); // todo
+booksRouter.post('/:id/rating', auth, validateRating, rateBook);
 
 booksRouter.put('/:id', auth, multer, updateBook);
 
