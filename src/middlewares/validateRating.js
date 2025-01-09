@@ -1,13 +1,13 @@
 import { ratingSchema } from '../schemas/Rating.js';
 
 export default (req, res, next) => {
-  const { rating } = req.body;
+  const { userId, rating } = req.body;
   const errors = [];
   if (!userId) {
     errors.push("Le format de l'id de l'utilisateur est invalide");
   }
   if (
-    isNaN(parseFloat(rating)) ||
+    isNaN(rating) ||
     rating < ratingSchema.rating.min ||
     rating > ratingSchema.rating.max
   ) {
