@@ -48,13 +48,3 @@ export const deleteBook = (req, res, next) => {
   res.status(202).json({ message: 'Not implemented' });
   // todo
 };
-
-export default {
-  getAllBooks,
-  getBookById,
-  getBestRatedBooks,
-  createBook,
-  rateBook,
-  updateBook,
-  deleteBook,
-};
