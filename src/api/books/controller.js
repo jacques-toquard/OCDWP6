@@ -1,5 +1,5 @@
 import Book from '../../models/Book.js';
-import fs from 'fs';
+import fs from 'fs/promises';
 
 export const getAllBooks = async (req, res, next) => {
   try {
@@ -35,6 +35,9 @@ export const getBestRatedBooks = async (req, res, next) => {
 };
 
 export const createBook = async (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image uploaded' });
+  }
   try {
     const createdBook = JSON.parse(req.body.book);
     delete createdBook.ratings;
