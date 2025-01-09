@@ -49,7 +49,15 @@ export const createBook = async (req, res, next) => {
   } catch (error) {
     console.log('ERROR at `POST/api/books/`:\n', error);
     res.status(400).json({ error });
-    await fs.unlink(req.file.path);
+    try {
+      await fs.unlink(req.file.path);
+    } catch (unlinkError) {
+      console.log(
+        'Warning: Could not delete uploaded file:',
+        unlinkError,
+        `\noldFilename: ${req.file.filename}`
+      );
+    }
   }
 };
 
