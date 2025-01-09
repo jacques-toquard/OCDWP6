@@ -4,6 +4,14 @@
 ```zsh
 git clone git@github.com:jacques-toquard/OCDWP6.git backend
 ```
+### Use PORT 8000 for the backend:
+```zsh
+export OCDWP6_PORT=8000
+```
+### Create a JWT SECRET_KEY for the backend:
+```zsh
+export OCDWP6_SECRET_KEY=$(openssl rand -base64 64)
+```
 ### Install dependencies:
 ```zsh
 cd backend
@@ -15,10 +23,6 @@ npm install
 ```zsh
 npm start
 nvm run dev # for watch behavior with nodemon
-```
-### Use PORT 8000 for the backend:
-```zsh
-export OCDWP6_PORT=8000
 ```
 ## Frontend (will use PORT 3000 without docker)
 ### Clone the frontend repo into the frontend folder:
