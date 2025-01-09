@@ -50,6 +50,7 @@ const bookSchema = new mongoose.Schema({
   },
   averageRating: {
     type: Number,
+    default: 0,
     required: true,
     description: 'note moyenne du livre',
   },
