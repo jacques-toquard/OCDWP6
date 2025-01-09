@@ -4,9 +4,9 @@
 ```zsh
 git clone git@github.com:jacques-toquard/OCDWP6.git backend
 ```
-### Use PORT 8000 for the backend:
+### Use PORT 4000 for the backend (the frontend expects it):
 ```zsh
-export OCDWP6_PORT=8000
+export OCDWP6_PORT=4000
 ```
 ### Create a JWT SECRET_KEY for the backend:
 ```zsh
