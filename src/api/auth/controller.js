@@ -30,7 +30,7 @@ export const login = async (req, res, next) => {
     }
     res.status(200).json({
       userId: user._id,
-      token: `Bearer ${jwt.sign({ userId: user._id }, OCDWP6_SECRET_KEY, {
+      token: `${jwt.sign({ userId: user._id }, OCDWP6_SECRET_KEY, {
         expiresIn: '7d',
       })}`,
     });
