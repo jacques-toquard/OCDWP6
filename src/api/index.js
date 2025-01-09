@@ -1,6 +1,6 @@
 import express from 'express';
-// todo: import authRoutes from './auth.js';
-// todo: import booksRoutes from './books.js';
+// todo: import authRoutes from './auth/index.js';
+import booksRoutes from './books/index.js';
 
 const apiRouter = express.Router();
 
@@ -9,6 +9,6 @@ apiRouter.get('/test', (req, res) => {
 });
 
 // todo: apiRouter.use('/auth', authRoutes);
-// todo: apiRouter.use('/books', booksRoutes);
+apiRouter.use('/books', booksRoutes);
 
 export default apiRouter;
