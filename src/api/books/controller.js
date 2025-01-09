@@ -80,10 +80,11 @@ export const rateBook = async (req, res, next) => {
     } else {
       book.ratings[ratingIndex].rating = rating;
     }
-    const averageRating =
-      book.ratings.reduce((runningTotal, rating) => runningTotal + rating.rating, 0) /
-      book.ratings.length;
-    book.averageRating = averageRating;
+    book.averageRating =
+      book.ratings.reduce(
+        (runningTotal, rating) => runningTotal + rating.rating,
+        0
+      ) / book.ratings.length;
     await book.save();
     res.status(200).json({ book: book });
   } catch (error) {

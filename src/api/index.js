@@ -8,7 +8,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-fs.access(path.join(__dirname, '../images'), (error) => {
+fs.access(path.join(__dirname, '../images'), error => {
   if (error) {
     fs.mkdirSync(path.join(__dirname, '../images'));
   }
