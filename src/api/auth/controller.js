@@ -2,11 +2,24 @@ import User from '../../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+const saltRounds = 10;
+
 const OCDWP6_SECRET_KEY = process.env.OCDWP6_SECRET_KEY;
 
 export const signup = (req, res, next) => {
-  res.status(202).json({ message: 'Not implemented' });
-  // todo
+  bcrypt
+    .hash(req.body.password, saltRounds)
+    .then(hash => {
+      const user = new User({
+        email: req.body.email,
+        password: hash,
+      });
+      user
+        .save()
+        .then(() => res.status(201).json({ message: 'Utilisateur crée' }))
+        .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
 };
 
 export const login = (req, res, next) => {

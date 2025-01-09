@@ -5,7 +5,7 @@ import validateSignupUser from '../../middlewares/validateSignupUser.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', validateSignupUser, signup); // todo
-authRouter.post('/login', validateLoginUser, login); // todo
+authRouter.post('/signup', validateSignupUser, signup);
+authRouter.post('/login', validateLoginUser, login);
 
 export default authRouter;
