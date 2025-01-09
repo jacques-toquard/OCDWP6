@@ -5,7 +5,7 @@ export const getAllBooks = async (req, res, next) => {
     const books = await Book.find();
     res.status(200).json(books);
   } catch (error) {
-    console.log('ERROR at `GET /api/books/`:\n', error);
+    console.log('ERROR at `GET/api/books/`:\n', error);
     res.status(500).json({ error });
   }
 };
@@ -18,7 +18,7 @@ export const getBookById = async (req, res, next) => {
     }
     res.status(200).json(book);
   } catch (error) {
-    console.log('ERROR at `GET /api/books/:id`:\n', error);
+    console.log('ERROR at `GET/api/books/:id`:\n', error);
     res.status(500).json({ error });
   }
 };
@@ -28,7 +28,7 @@ export const getBestRatedBooks = async (req, res, next) => {
     const books = await Book.find().sort({ averageRating: -1 }).limit(3);
     res.status(200).json(books);
   } catch (error) {
-    console.log('ERROR at `GET /api/books/bestrating`:\n', error);
+    console.log('ERROR at `GET/api/books/bestrating`:\n', error);
     res.status(500).json({ error });
   }
 };
