@@ -1,1 +1,3 @@
-Utilisation du mot 'model' vs 'schema' ??
+Utilisation du mot 'model' vs 'schema' ?? un model est-il formé de plusieurs schemas ?
+Besoin d'expliciter les mots 'Bearer' dans backend/src/api/auth/controller.js ?
+  le cours ne le met pas dans son exemple, mais a besoin de l'ecpliciter lors du middleware auth
