@@ -1,4 +1,5 @@
 import Book from '../../models/Book.js';
+import fs from 'fs';
 
 export const getAllBooks = async (req, res, next) => {
   try {
@@ -33,9 +34,23 @@ export const getBestRatedBooks = async (req, res, next) => {
   }
 };
 
-export const createBook = (req, res, next) => {
-  res.status(202).json({ message: 'Not implemented' });
-  // todo
+export const createBook = async (req, res, next) => {
+  try {
+    const createdBook = JSON.parse(req.body.book);
+    delete createdBook.ratings;
+    delete createdBook.averageRating;
+    createdBook.userId = req.auth.userId;
+    createdBook.imageUrl = `${req.protocol}://${req.get('host')}/api/images/${
+      req.file.filename
+    }`;
+    const book = new Book(createdBook);
+    await book.save();
+    res.status(201).json(book);
+  } catch (error) {
+    console.log('ERROR at `POST/api/books/`:\n', error);
+    res.status(400).json({ error });
+    await fs.unlink(req.file.path);
+  }
 };
 
 export const rateBook = (req, res, next) => {

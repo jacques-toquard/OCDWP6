@@ -45,6 +45,7 @@ const bookSchema = new mongoose.Schema({
         },
       },
     ],
+    default: [],
     required: true,
     description: 'notes données à un livre',
   },

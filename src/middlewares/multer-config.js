@@ -1,6 +1,10 @@
 import multer from 'multer';
-import { uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const MIME_TYPE_MAP = {
   'image/png': 'png',
@@ -26,6 +30,6 @@ const storage = multer.diskStorage({
 export default multer({
   storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
+    fileSize: 5 * 1024 * 1024, // 5MiB
   },
 }).single('image');
