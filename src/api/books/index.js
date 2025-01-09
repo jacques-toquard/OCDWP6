@@ -21,7 +21,7 @@ booksRouter.get('/:id', getBookById);
 booksRouter.post('/', auth, multer, createBook);
 booksRouter.post('/:id/rating', auth, validateRating, rateBook); // todo
 
-booksRouter.put('/:id', auth, updateBook); // todo
+booksRouter.put('/:id', auth, multer, updateBook);
 
 booksRouter.delete('/:id', auth, deleteBook); // todo
 
