@@ -8,7 +8,7 @@ import {
   rateBook,
   updateBook,
   deleteBook,
-} from './controller.js';
+} from './controllers.js';
 import validateRating from '../../middlewares/validateRating.js';
 import multer from '../../middlewares/multer-config.js';
 
