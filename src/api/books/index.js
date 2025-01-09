@@ -9,6 +9,7 @@ import {
   updateBook,
   deleteBook,
 } from './controller.js';
+import validateRating from '../../middlewares/validateRating.js';
 
 const booksRouter = express.Router();
 
@@ -17,7 +18,7 @@ booksRouter.get('/bestrating', getBestRatedBooks); // todo
 booksRouter.get('/:id', getBookById);
 
 booksRouter.post('/', auth, createBook); // todo
-booksRouter.post('/:id/rating', auth, rateBook); // todo
+booksRouter.post('/:id/rating', auth, validateRating, rateBook); // todo
 
 booksRouter.put('/:id', auth, updateBook); // todo
 

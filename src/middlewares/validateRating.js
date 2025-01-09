@@ -8,8 +8,8 @@ export default (req, res, next) => {
   }
   if (
     isNaN(parseFloat(rating)) ||
-    rating < Rating.rating.min ||
-    rating > Rating.rating.max
+    rating < ratingSchema.rating.min ||
+    rating > ratingSchema.rating.max
   ) {
     errors.push('Le format de la note est invalide');
   }
