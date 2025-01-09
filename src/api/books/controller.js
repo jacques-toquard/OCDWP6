@@ -123,7 +123,33 @@ export const updateBook = async (req, res, next) => {
   }
 };
 
-export const deleteBook = (req, res, next) => {
-  res.status(202).json({ message: 'Not implemented' });
-  // todo
+export const deleteBook = async (req, res, next) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ message: 'Livre non rencontré' });
+    }
+    if (book.userId !== req.auth.userId) {
+      return res.status(403).json({ message: 'Non autorisé' });
+    }
+    await Book.deleteOne({ _id: req.params.id });
+    if (book.imageUrl) {
+      const oldFilename = book.imageUrl.split('/images/')[1];
+      try {
+        await fs.promises.unlink(
+          path.join(__dirname, '../../images', oldFilename)
+        );
+      } catch (error) {
+        console.log(
+          'Warning: Could not delete old image:',
+          error,
+          `\noldFilename: ${oldFilename}`
+        );
+      }
+    }
+    res.status(200).json({ message: 'Livre supprimé' });
+  } catch (error) {
+    console.log('ERROR at `DELETE/api/books/:id`:\n', error);
+    res.status(500).json({ error });
+  }
 };

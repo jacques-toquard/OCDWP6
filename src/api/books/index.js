@@ -23,6 +23,6 @@ booksRouter.post('/:id/rating', auth, validateRating, rateBook); // todo
 
 booksRouter.put('/:id', auth, multer, updateBook);
 
-booksRouter.delete('/:id', auth, deleteBook); // todo
+booksRouter.delete('/:id', auth, deleteBook);
 
 export default booksRouter;
