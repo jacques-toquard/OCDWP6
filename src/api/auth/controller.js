@@ -14,6 +14,7 @@ export const signup = async (req, res, next) => {
     await user.save();
     res.status(201).json({ message: 'Utilisateur crée' });
   } catch (error) {
+    console.log('ERROR at `POST /api/auth/signup`:\n', error);
     res.status(500).json({ error });
   }
 };
@@ -34,6 +35,7 @@ export const login = async (req, res, next) => {
       })}`,
     });
   } catch (error) {
+    console.log('ERROR at `POST/api/auth/login`:\n', error);
     res.status(500).json({ error });
   }
 };
