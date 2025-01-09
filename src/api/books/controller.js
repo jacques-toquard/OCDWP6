@@ -1,5 +1,10 @@
 import Book from '../../models/Book.js';
 import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const getAllBooks = async (req, res, next) => {
   try {
@@ -82,9 +87,7 @@ export const rateBook = async (req, res, next) => {
     if (ratingIndex === -1) {
       book.ratings.push({ userId, grade: ratingInt });
     } else {
-      return res
-        .status(400)
-        .json({ message: 'Vous avez déjà noté ce livre' });
+      return res.status(400).json({ message: 'Vous avez déjà noté ce livre' });
     }
     const averageRating =
       book.ratings.reduce(
@@ -156,7 +159,6 @@ export const updateBook = async (req, res, next) => {
 };
 
 export const deleteBook = async (req, res, next) => {
-  // todo: error: path is not defined
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
