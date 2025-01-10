@@ -2,6 +2,7 @@ import Book from '../../models/Book.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { ratingSchema } from '../../schemas/Rating.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,12 +46,37 @@ export const createBook = async (req, res, next) => {
   }
   try {
     const createdBook = JSON.parse(req.body.book);
+    const bookRatingsCopy = {
+      ratings: createdBook.ratings,
+      averageRating: createdBook.averageRating,
+    };
     delete createdBook.ratings;
     delete createdBook.averageRating;
     createdBook.userId = req.auth.userId;
     createdBook.imageUrl = `${req.protocol}://${req.get('host')}/api/images/${
       req.file.filename
     }`;
+    try {
+      if (bookRatingsCopy.ratings.length === 1) {
+        if (bookRatingsCopy.ratings[0].userId !== req.auth.userId) {
+          throw new Error('You are not allowed to rate this book');
+        }
+        if (
+          bookRatingsCopy.ratings[0].grade < ratingSchema.rating.min ||
+          bookRatingsCopy.ratings[0].grade > ratingSchema.rating.max
+        ) {
+          throw new Error(
+            `Rating must be between ${ratingSchema.rating.min} and ${ratingSchema.rating.max}`
+          );
+        }
+        createdBook.ratings = bookRatingsCopy.ratings;
+        createdBook.averageRating = bookRatingsCopy.ratings[0].grade;
+      } else {
+        throw new Error('Erreur lors de la création du livre');
+      }
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
     const book = new Book(createdBook);
     await book.save();
     res.status(201).json(book);
