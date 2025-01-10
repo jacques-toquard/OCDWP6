@@ -1,4 +1,7 @@
 Utilisation du mot 'model' vs 'schema' ?? un model est-il formé de plusieurs schemas ?
+  => schema: representation fiable
+  => model: outil de travail, comme une `class`
 Besoin d'expliciter les mots 'Bearer' dans backend/src/api/auth/controller.js ?
-  le cours ne le met pas dans son exemple, mais a besoin de l'ecpliciter lors du middleware auth
+  le cours ne le met pas dans son exemple, mais a besoin de l'expliciter lors du middleware auth
   on dirait qu'il ne faut pas le mettre, le client le set up automatiquement
+  => le frontend s'en occupe
