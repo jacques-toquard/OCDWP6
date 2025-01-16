@@ -6,7 +6,7 @@ import apiRouter from './api/index.js';
 const app = express();
 
 mongoose
-  .connect('mongodb://admin:password@localhost:27017/ocdwp6?authSource=admin')
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(error => console.log('Connexion à MongoDB échouée !', error));
 

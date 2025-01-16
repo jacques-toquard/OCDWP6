@@ -12,6 +12,10 @@ export OCDWP6_PORT=4000
 ```zsh
 export OCDWP6_SECRET_KEY=$(openssl rand -base64 64)
 ```
+### Create a MONGODB_URI for the backend:
+```zsh
+export MONGODB_URI='mongodb://admin:password@localhost:27017/ocdwp6?authSource=admin'
+```
 ### Install dependencies:
 ```zsh
 cd backend
