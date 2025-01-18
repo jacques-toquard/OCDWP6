@@ -122,7 +122,7 @@ export const rateBook = async (req, res, next) => {
       ) / book.ratings.length;
     book.averageRating = averageRating;
     await book.save();
-    res.status(200).json({ book: book });
+    res.status(200).json(book);
   } catch (error) {
     console.log('ERROR at `POST/api/books/:id/rating`:\n', error);
     res.status(500).json({ error });
